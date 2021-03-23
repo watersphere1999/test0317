@@ -7,9 +7,14 @@ import HomeIcon from '@material-ui/icons/Home';
 import SearchIcon from '@material-ui/icons/Search';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
+//to add router link for navigation btn
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   footer:{
+    "&$selected": {
+      color: "00d04c"
+    },
     boxShadow:" 0 0 3px 0 rgba(0, 0, 0, 0.2)",
     backgroundColor:"white",
     position:"fixed",
@@ -18,30 +23,34 @@ const useStyles = makeStyles((theme) => ({
     width:"100%",
     fontFamily:"NotoSansCJKtc",
   }, 
+  selected: {}
 }));
 
 function Navigation() {
-  
   const classes = useStyles(); 
   const [value, setValue] = React.useState(1);
-
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+  
   return(
     
     <Fragment>
     <div className={classes.bottom}>
     <BottomNavigation
      value={value} 
-     onChange={(event, newValue) => {
-        setValue(newValue);
-      }}
+     onChange={handleChange}
      showLabels
-     className={classes.footer}
+     classes={{
+      root: classes.footer,
+      selected: classes.selected
+    }}
      >
      
-      <BottomNavigationAction label="首頁" href="/home" icon={<HomeIcon />} />
-      <BottomNavigationAction label="步道搜尋" href="/searchResult" icon={<SearchIcon />} />
-      <BottomNavigationAction label="附近步道"  icon={<LocationOnIcon />} />
-      <BottomNavigationAction label="我的最愛"  icon={<FavoriteIcon  />} />
+      <BottomNavigationAction  component={Link} label="首頁" value="home" to="/home" icon={<HomeIcon />} />
+      <BottomNavigationAction component={Link} label="步道搜尋" value="search" to="/searchResult" icon={<SearchIcon />} />
+      <BottomNavigationAction component={Link} label="附近步道" value="nearby" to="/nearbypathway"  icon={<LocationOnIcon />} />
+      <BottomNavigationAction component={Link} label="我的最愛"  value="favorite" icon={<FavoriteIcon  />} />
     
     </BottomNavigation>
     </div>

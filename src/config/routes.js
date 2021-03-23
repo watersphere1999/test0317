@@ -35,7 +35,7 @@ const Register0_1 = lazy(() => import('../pages/HikingFrontend/Register0_1'))
 const ResetPassword = lazy(() => import('../pages/HikingFrontend/ResetPassword'))
 
 const Attraction = lazy(()=>import('../pages/HikingFrontend/Attraction'));
-
+const NearByPathway = lazy(()=>import('../pages/HikingFrontend/NearByPathway'));
 
 const routes = [
   <UnauthorizedRoute path="/signin" redirectTo="/" exact component={SignIn} />,
@@ -62,6 +62,7 @@ const routes = [
   <Route path="/about" exact component={About} />,
   <Route path="/columnPage" exact component={ColumnPage} />,  
   <Route path="/attraction" exact component={Attraction}/>,
+  <Route path="/NearByPathway" exact component={NearByPathway}/>,
 
   <AuthorizedRoute path="/my_account" exact component={MyAccount} />,
   <AuthorizedRoute path="/home" exact component={Home} />,
