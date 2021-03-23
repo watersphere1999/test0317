@@ -12,9 +12,6 @@ import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   footer:{
-    "&$selected": {
-      color: "00d04c"
-    },
     boxShadow:" 0 0 3px 0 rgba(0, 0, 0, 0.2)",
     backgroundColor:"white",
     position:"fixed",
@@ -23,7 +20,6 @@ const useStyles = makeStyles((theme) => ({
     width:"100%",
     fontFamily:"NotoSansCJKtc",
   }, 
-  selected: {}
 }));
 
 function Navigation() {
@@ -47,10 +43,10 @@ function Navigation() {
     }}
      >
      
-      <BottomNavigationAction  component={Link} label="首頁" value="home" to="/home" icon={<HomeIcon />} />
-      <BottomNavigationAction component={Link} label="步道搜尋" value="search" to="/searchResult" icon={<SearchIcon />} />
-      <BottomNavigationAction component={Link} label="附近步道" value="nearby" to="/nearbypathway"  icon={<LocationOnIcon />} />
-      <BottomNavigationAction component={Link} label="我的最愛"  value="favorite" icon={<FavoriteIcon  />} />
+      <BottomNavigationAction  component={Link} to="/home" label="首頁" value="home"  icon={<HomeIcon />} />
+      <BottomNavigationAction component={Link} to="/searchResult" label="步道搜尋" value="search"  icon={<SearchIcon />} />
+      <BottomNavigationAction component={Link} to="/nearbypathway" label="附近步道" value="nearby"   icon={<LocationOnIcon />} />
+      <BottomNavigationAction component={Link} to="/home" label="我的最愛"  value="favorite" icon={<FavoriteIcon  />} />
     
     </BottomNavigation>
     </div>

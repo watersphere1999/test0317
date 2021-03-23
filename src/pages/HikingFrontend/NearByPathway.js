@@ -5,6 +5,7 @@ import {
 } from "@material-ui/core/styles";
 // Import Swiper React components
 // Import Swiper styles
+import Button from '@material-ui/core/Button';
 import PropTypes from 'prop-types';
 import Box from '@material-ui/core/Box';
 import AppBar from "@material-ui/core/AppBar";
@@ -13,6 +14,14 @@ import Navigation from "../../components/Bottom/Navigation";
 import PathwayDistance from "../../components/Lists/PathwayDistance";
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
+import { ReactComponent as Map } from '../../asset/img/map.svg';
+//for GPS dialog
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+
 import { pathway, pathwayFamily, pathwayFavorite } from 'data/pathway';
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -48,6 +57,15 @@ const useStyles = makeStyles((theme) => ({
 
         backgroundColor: "rgba(0, 0, 0, 0.05)",
     },
+    tabPaper:{
+
+    },
+    mapBox:{
+        width: 379,
+        margin: '123px auto',
+        textAlign: 'center',
+        fontSize: 16,
+    }
 }));
 
 function a11yProps(index) {
@@ -82,6 +100,8 @@ TabPanel.propTypes = {
 };
 
 const NearByPathway = () => {
+    const [gpsSetting, setGpsSetting] = React.useState(false);
+    const [openDialog, setOpenDialog] = React.useState(true);
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
     const handleChange = (event, newValue) => {
@@ -89,6 +109,13 @@ const NearByPathway = () => {
     };
     const handleChangeIndex = (index) => {
         setValue(index);
+    };
+    const handleSetting = () => {
+        setOpenDialog(false);
+        setGpsSetting(true);
+    };
+    const handleCancel = () => {
+        setOpenDialog(false);
     };
     return (
         <>
@@ -110,41 +137,70 @@ const NearByPathway = () => {
                         <Tab label={<span style={{ color: '#ffffff' }}>親子</span>} {...a11yProps(3)} />
                     </Tabs>
                 </AppBar>
-                <TabPanel value={value} index={0}>
-                    {pathway.suggest.map((path, i) => (
-                        <PathwayDistance
-                            pathLink={path.pathLink}
-                            favorite={false}
-                            key={i}
-                            avatar={path.img}
-                            avatarAlt={path.pathTitle}
-                            title={path.pathTitle}
-                            location={path.pathLocation}
-                            miles={path.pathMiles}
-                        />
-                    ))}
+                {gpsSetting ?
+                    <>
+                        <TabPanel value={value} index={0}>
+                            {pathway.suggest.map((path, i) => (
+                                <PathwayDistance
+                                    pathLink={path.pathLink}
+                                    favorite={false}
+                                    key={i}
+                                    avatar={path.img}
+                                    avatarAlt={path.pathTitle}
+                                    title={path.pathTitle}
+                                    location={path.pathLocation}
+                                    miles={path.pathMiles}
+                                />
+                            ))}
+                        </TabPanel>
+                        <TabPanel value={value} index={1}>
+                            {pathway.suggest.map((path, i) => (
+                                <PathwayDistance
+                                    pathLink={path.pathLink}
+                                    favorite={false}
+                                    key={i}
+                                    avatar={path.img}
+                                    avatarAlt={path.pathTitle}
+                                    title={path.pathTitle}
+                                    location={path.pathLocation}
+                                    miles={path.pathMiles}
+                                />
+                            ))}
+                        </TabPanel>
+                        <TabPanel value={value} index={2}>
+                            Page Three
                 </TabPanel>
-                <TabPanel value={value} index={1}>
-                {pathway.suggest.map((path, i) => (
-                        <PathwayDistance
-                            pathLink={path.pathLink}
-                            favorite={false}
-                            key={i}
-                            avatar={path.img}
-                            avatarAlt={path.pathTitle}
-                            title={path.pathTitle}
-                            location={path.pathLocation}
-                            miles={path.pathMiles}
-                        />
-                    ))}
+                        <TabPanel value={value} index={3}>
+                            Page Four
                 </TabPanel>
-                <TabPanel value={value} index={2}>
-                    Page Three
-                </TabPanel>
-                <TabPanel value={value} index={3}>
-                    Page Four
-                </TabPanel>
+                    </>
+                    :
+                    <div className={classes.tabPaper}>
+                        <div className={classes.mapBox}>
+                            <Map /><br />GPS未開啓<br />請至『設定』並開啟位置設定
+                        </div>
+                    </div>
+                }
                 <Navigation />
+                <Dialog
+                    fullWidth
+                    open={openDialog}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+                    <DialogTitle id="alert-dialog-title">GPS 未開啟</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-description">請至『設定』並開啟位置設定。</DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={handleCancel}>
+                            取消
+                        </Button>
+                        <Button onClick={handleSetting} autoFocus>
+                            設定
+                        </Button>
+                    </DialogActions>
+                </Dialog>
             </div>
         </>
     );
